@@ -1,0 +1,83 @@
+
+public class List 
+{
+    ListNode head;
+    ListNode tail;
+    ListNode cur;
+    
+    List()
+    {
+    	head=null;
+    	tail=null;
+    	cur=null;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Separate class
+
+
+public class ListNode
+{
+	int item;
+	ListNode next;
+	
+	
+	ListNode(int i, ListNode n)
+	{
+		this.item=i;
+		this.next=n;
+	}
+	
+	static void insertToEnd(int n, List list)
+	{
+		ListNode l=new ListNode(n,null);
+		if(list.head==null)
+		{
+		  list.head=l;
+		  list.cur=l;
+		}
+		else
+		{	
+			list.cur.next=l;
+			list.cur=l;
+		}
+	}
+	
+	static void insertToFront(int n, List list)
+	{
+		ListNode l=new ListNode(n,null);
+		if(list.head == null)
+		{
+			list.head=l;
+			list.cur=l;
+		}
+		else
+		{
+			l.next=list.head;
+			list.head=l;
+		}
+	}
+	static void printList(List list)
+	{
+		ListNode ptr=list.head;
+		while(ptr != null)
+		{
+			System.out.print(ptr.item + " --> ");
+			ptr=ptr.next;
+		}
+		System.out.print("END");
+	}
+		
+	public static void main(String[] args) 
+	{
+		List list=new List();
+		insertToEnd(1, list);
+		insertToEnd(2, list);
+		insertToEnd(3, list);
+		insertToFront(0, list);
+		insertToFront(-1, list);
+		printList(list);
+	}
+
+}
