@@ -1,0 +1,67 @@
+
+import java.util.Random;
+
+public class Dice 
+{	
+	public static void diceRoll(int x)
+	{
+		double [] counter = new double[7];
+		for(int j=1; j<=6; j++)
+		{
+			counter[j]=0;
+		}
+		Random rand = new Random();	
+		
+		for(int i=1; i<=x; i++)
+		{
+			int r=rand.nextInt(6)+1;
+			counter[r]++;
+			
+		}
+	
+	    for(int n=1; n<=6; n++)
+	    {
+	    	System.out.format("%04.2f%%     ",(counter[n]/x) * 100.0);
+	    }
+	}
+	public static void main(String[] args) 
+	{
+		
+		System.out.println();
+		System.out.println("# of Rolls  1s         2s         3s         4s         5s         6s");
+		System.out.println("========================================================================");
+		
+		System.out.print("10         ");
+		diceRoll(10);
+		System.out.println();
+		
+		System.out.print("20         ");
+		diceRoll(20);
+		System.out.println();
+		
+		System.out.print("30         ");
+		diceRoll(30);
+		System.out.println();
+		
+		System.out.print("100        ");
+		diceRoll(100);
+		System.out.println();
+		
+		System.out.print("1000       ");
+		diceRoll(1000);
+		System.out.println();
+		
+		System.out.print("10000      ");
+		diceRoll(10000);
+		System.out.println();
+		
+		System.out.print("100000     ");
+		diceRoll(100000);
+		System.out.println();
+		
+		System.out.print("1000000    ");
+		diceRoll(1000000);
+		System.out.println();
+	}
+
+}
