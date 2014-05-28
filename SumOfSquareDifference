@@ -1,0 +1,40 @@
+
+public class Difference 
+{
+	public static int compute(int [] array)
+	{
+		int sum=0;
+		for(int i=1; i<=100; i++)
+		{
+			sum+=array[i];
+		}
+		return sum;
+	}
+	public static void initialize(int [] sumOfSq, int [] sqOfSum)
+	{
+		for(int i = 1; i<=100; i++)
+		{
+			sumOfSq[i]=i*i;
+		}
+		for(int j=1; j<=100; j++)
+		{
+			sqOfSum[j]=j;
+		}
+		
+		int sumOSq=compute(sumOfSq);
+		int sqOSum=compute(sqOfSum);
+		sqOSum=sqOSum*sqOSum;
+		int ans=sqOSum-sumOSq;
+		
+		System.out.println("The difference is: " + ans);
+	}
+	public static void main(String[] args) 
+	{
+		int sumOfSq []=new int[101];
+		int sqOfSum []=new int[101];
+		
+		initialize(sumOfSq, sqOfSum);
+		
+
+	}
+}
