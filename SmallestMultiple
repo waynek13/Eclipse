@@ -1,0 +1,38 @@
+
+public class smallestMultiple 
+{
+	public static boolean check(int x)
+	{
+		boolean s=true;
+		for(int i=11; i<=20; i++)
+		{
+			if(x%i != 0)
+			{
+				s=false;
+			}
+		}
+		return s;
+	}
+	public static int findSmallest(int n)
+	{
+		boolean found=false;
+		for(int i=n; !found; i++ )
+		{
+			if(check(i))
+			{
+				return i;
+			}
+		}
+		return 0;
+		
+	}
+	public static void main(String[] args) 
+	{
+		int answer;
+		answer=findSmallest(100);
+		
+		
+		System.out.println("The smallest number that is a multiple of all the numbers 1-20 is: " + answer);
+	}
+
+}
