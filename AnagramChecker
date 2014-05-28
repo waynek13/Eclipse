@@ -1,0 +1,75 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Anagram 
+{
+	public static void printOutString(String word)
+	{
+		System.out.println(word);
+	}
+	
+	public static void printOutArray(char[] a)
+	{
+		for(int i=0; i<a.length; i++)
+		{
+		System.out.println("index " + i +"=" + a[i]);
+		}
+	}
+	
+	public static char[] createArray(String word)
+	{
+		int size=word.length();
+		char[] Array=new char[size];
+		for(int i=0; i<size; i++)
+		{
+			Array[i]=word.charAt(i);
+		}
+		sortArray(Array);
+		return Array;
+	}
+	
+	public static char[] sortArray(char[] a)
+	{
+		Arrays.sort(a);
+		return a;	
+	}
+	
+	public static boolean anagramCheck(char[] a, char[] b)
+	{
+		if(a.length != b.length)
+		{
+			return false;
+		}
+		for(int i=0; i<a.length;i++)
+		{
+			if(a[i]!=b[i])
+			{
+				return false;
+			}		
+		}
+		return true;
+	}
+	
+	public static void main(String[] args) 
+	{
+		Scanner input = new Scanner(System.in);
+        System.out.println("Enter a word: ");
+        String aWord=input.next().toLowerCase();
+        System.out.println("Enter the word you want to check for being an anagram: ");
+        String bWord=input.next().toLowerCase();
+        //printOutString(aWord);
+        //printOutString(bWord);
+        char[] aWordAry=createArray(aWord);
+        char[] bWordAry=createArray(bWord);
+        //printOutArray(aWordAry);
+        boolean an = anagramCheck(aWordAry,bWordAry);
+        if(an)
+        {
+        	System.out.println("Yes, "+bWord+" is an anagram to the word "+ aWord);
+        }
+        else
+        {
+        	System.out.println("No, "+bWord+" is NOT an anagram to the word "+ aWord);
+        }   
+	}
+}
