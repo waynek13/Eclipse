@@ -1,0 +1,118 @@
+//Cash Register Program made by Kevin Wayne
+
+import java.util.*;
+public class CashRegister 
+{
+	public static double changeCompute(double cost, double paid)
+	{
+		return paid-cost;
+	}
+	
+	public static void printBills(int bills[])
+	{
+		int n=20;
+		for(int i=0; i<=3; i++)
+		{
+			if(i==3)
+			{					
+				n=1;
+			}
+			System.out.println("$"+n+" bills: "+ bills[i]);
+			n=n/2;
+		}
+	}
+	
+	public static void printCents(int cents[])
+	{
+			System.out.println("Quarters: "+ cents[0]);
+			System.out.println("Dimes: "+ cents[1]);
+			System.out.println("Nickels: "+ cents[2]);
+			System.out.println("Pennies: "+ cents[3]);
+	}
+	
+	public static void findBills(double change)
+	{
+		int [] bills =new int [] {0,0,0,0};
+		int i=0;
+		for(double b=20.0; b>=5.00; b=b/2.0)
+		{
+		    while(change-b >= 0.00)
+		    {
+			    change=change-b;
+			    bills[i]++;
+		    }
+		i++;
+		}
+			
+		double ones=change/1.0;
+		bills[i]=(int)ones;
+		change=change-(int)ones;
+		printBills(bills);
+		findCents(change);
+	}
+	
+	public static void findCents(double change)
+	{
+		int [] cents =new int [] {0,0,0,0};
+		int i=0;
+		double b=0.25;
+		while(b>=0.01)
+		{
+		    while(change-b >= -0.001)
+		    {
+			    change=change-b;
+			    cents[i]++;
+		    }
+		    if(b==0.25)
+		    {
+		    	b=0.10;
+		    }
+		    else if(b==.05)
+		    {
+		    	b=0.01;
+		    }
+		    else if(b==0.10)
+		    {
+		    	b=0.05;
+		    }
+		    else
+		    {
+		    	b=0.00;
+		    }
+			i++;
+		}
+		printCents(cents);
+	}
+
+	public static void main(String[] args) 
+	{
+		Scanner input=new Scanner(System.in);
+		double paid;
+		System.out.println("Please Enter the Total Cost for the Customer: ");
+		double cost=input.nextDouble();
+		cost=(double)Math.round(cost * 100) / 100;
+		System.out.println(cost);
+		
+		do
+		{
+		    System.out.println("Please Enter How Much the Customer gave you: ");
+		    paid=input.nextDouble();
+		    if(paid<cost)
+		    {
+			    System.out.println("ERROR, Not enough paid by the customer!");
+		    }
+		} while(paid<cost);
+		paid=(double)Math.round(paid * 100) / 100;
+		System.out.println(paid);
+		
+		System.out.println("===============");
+		System.out.println("Please give the following to the customer:");
+		
+		double change=changeCompute(cost,paid);
+		findBills(change);
+		
+		System.out.println("===============");
+
+	}
+
+}
