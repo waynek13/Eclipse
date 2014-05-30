@@ -87,9 +87,10 @@ public class CashRegister
 	public static void main(String[] args) 
 	{
 		Scanner input=new Scanner(System.in);
-		double paid;
+		double paid, cost;
+		System.out.println("Welcome to the cash register for dummy's!");
 		System.out.println("Please Enter the Total Cost for the Customer: ");
-		double cost=input.nextDouble();
+		cost=input.nextDouble();
 		cost=(double)Math.round(cost * 100) / 100;
 		System.out.println(cost);
 		
