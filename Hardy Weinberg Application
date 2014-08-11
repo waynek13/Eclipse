@@ -1,0 +1,675 @@
+/*
+ * Author: Kevin Wayne
+ * Date Created: 6/24/2014
+ * 
+ * This is a program to calculate information for the Hardy-Weinberg
+calculation.  It will provide the following information...
+The frequency of the dominant allele (p/A) in the population
+The frequency of the recessive allele (q/a) in the population
+The percentage of [AA] homozygous dominant individuals
+The percentage of [Aa] heterozygous individuals
+The percentage of [aa] homozygous recessive individuals
+The phenotype frequency of the dominant allele A(p)
+The phenotype frequency of the recessive allele a(q)
+ */
+
+import java.awt.BorderLayout;
+
+
+public class HardyWeingbergSolver extends JFrame 
+{
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private static JTextField displayTxt;
+	private static JTextField textField1;
+	private static JTextField textField2;
+	private static JTextField textField3;
+	private static JTextField textField4;
+	private static JTextField textField5;
+	private static JTextField textField6;
+	private static JTextField textField7;
+	private static JTextField textFieldNum;
+	private static JTextField textFieldDen;
+	private static JTextField textFieldEquals;
+	private static JTextField textField;
+	private static JTextField textField_1;
+	private static JTextField textField_2;
+	private static JTextField textField_3;
+	private static JTextField textField_4;
+	private static JTextField textField_5;
+	private static JTextField textField_6;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
+					HardyWeingbergSolver frame = new HardyWeingbergSolver();
+					frame.setVisible(true);
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	//Functions for the solver
+	public static double computeOther(double x)
+	{
+		return (double)Math.round((1.0-x)* 100000) / 100000;
+	}
+	
+	public static double rounder(double x)
+	{
+		return (double)Math.round(x * 100000) / 100000;
+	}
+	
+	public static void clearAll()
+	{
+		textField1.setText("");
+		textField2.setText("");
+		textField3.setText("");
+		textField4.setText("");
+		textField5.setText("");
+		textField6.setText("");
+		textField7.setText("");
+		displayTxt.setText("");
+		textFieldNum.setText("");
+		textFieldDen.setText("");
+		textFieldEquals.setText("");
+		displayTxt.requestFocusInWindow();
+		textField.setText("");
+		textField_1.setText("");
+		textField_2.setText("");
+		textField_3.setText("");
+		textField_4.setText("");
+		textField_5.setText("");
+		textField_6.setText("");
+	}
+	
+	public static void clear()
+	{
+		textField1.setText("");
+		textField2.setText("");
+		textField3.setText("");
+		textField4.setText("");
+		textField5.setText("");
+		textField6.setText("");
+		textField7.setText("");
+		displayTxt.requestFocusInWindow();
+	}
+	
+	public static void percentages()
+	{
+		textField.setText(calc(textField1.getText()));
+		textField_1.setText(calc(textField2.getText()));
+		textField_2.setText(calc(textField3.getText()));
+		textField_3.setText(calc(textField4.getText()));
+		textField_4.setText(calc(textField5.getText()));
+		textField_5.setText(calc(textField6.getText()));
+		textField_6.setText(calc(textField7.getText()));
+		
+	}
+	
+	public static String calc(String n)
+	{
+		Double p = new Double(n);
+		p = p * 100.00;
+		return p.toString() + "%";
+	}
+	
+	
+	//End of functions for the solver
+	
+	/**
+	 * Create the frame.
+	 */
+	public HardyWeingbergSolver() 
+	{
+		setResizable(false);
+	
+		
+		setTitle("Hardy-Weinberg Solver");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 829, 732);
+		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.activeCaption);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+			
+		JLabel lblNewLabel = new JLabel("Click the Variable for the Frequency you Provided:");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 13));
+		
+		JButton pSquared = new JButton("p^2");
+		pSquared.setBackground(new Color(233, 150, 122));
+		pSquared.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				clear();
+				displayTxt.requestFocusInWindow();
+				Double freq = new Double(displayTxt.getText());
+				String freqAA=Double.toString(freq);
+				textField3.replaceSelection(freqAA);
+				
+				freq=Math.sqrt(freq);
+				freq=rounder(freq);
+				
+				Double q=computeOther(freq);
+				
+				String qStr=Double.toString(q);
+				String pStr=Double.toString(freq);
+				
+				textField2.replaceSelection(qStr);
+				textField1.replaceSelection(pStr);
+				
+				double q2 = q * q;
+				q2=rounder(q2);
+				String qStr2=Double.toString(q2);
+				textField5.replaceSelection(qStr2);
+				
+				double pq2 = 2 * freq * q;
+			    pq2=rounder(pq2);
+			    String pqStr2=Double.toString(pq2);
+			    textField4.replaceSelection(pqStr2);
+			    
+			    double sum=(freq*freq) + pq2;
+				sum=rounder(sum);
+				String s=Double.toString(sum);
+				textField6.replaceSelection(s);
+				
+				textField7.replaceSelection(qStr2);
+				percentages();
+			}
+		});
+		
+		JButton qSquared = new JButton("q^2");
+		qSquared.setBackground(new Color(233, 150, 122));
+		qSquared.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				clear();
+				displayTxt.requestFocusInWindow();
+				Double freq= new Double(displayTxt.getText()); //q2
+				
+				String freqaa=Double.toString(freq); //q2
+				textField5.replaceSelection(freqaa);
+				
+				freq=Math.sqrt(freq); //q
+				freq=rounder(freq);
+				
+				Double p=computeOther(freq);
+				
+				String qStr=Double.toString(freq);
+				String pStr=Double.toString(p);
+				
+				textField2.replaceSelection(qStr);
+				textField1.replaceSelection(pStr);
+				
+				double p2 = p * p;
+				p2=rounder(p2);
+				String pStr2=Double.toString(p2);
+				textField3.replaceSelection(pStr2);
+				
+				double pq2 = 2 * freq * p;
+			    pq2=rounder(pq2);
+			    String pqStr2=Double.toString(pq2);
+			    textField4.replaceSelection(pqStr2);
+			    
+			    double sum=p2 + pq2;
+				sum=rounder(sum);
+				String s=Double.toString(sum);
+				textField6.replaceSelection(s);
+						
+				double dubFreq=freq*freq;
+				dubFreq=rounder(dubFreq);
+				String df=Double.toString(dubFreq);
+				textField7.replaceSelection(df);
+				
+				percentages();
+			}
+		});
+		
+		JLabel lblEnterTheFrequency = new JLabel("Enter The Frequency:");
+		lblEnterTheFrequency.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		
+		displayTxt = new JTextField();
+		displayTxt.setBackground(new Color(224, 255, 255));
+		displayTxt.setColumns(10);
+		
+		JLabel lblResult = new JLabel("");
+		
+		JLabel lblTheFrequencyOf = new JLabel("The Frequency of the Dominant Allele is:");
+		
+		JLabel lblTheFrequencyOf_1 = new JLabel("The Frequency of the Recessive Allele is:");
+		
+		JLabel lblThePercentageOf = new JLabel("The Percentage of [AA] Homozygous Dominant Individuals is:");
+		
+		JLabel lblThePercentageOf_1 = new JLabel("The Percentage of [Aa] Heterozygous Individuals is:");
+		
+		JLabel lblThePercentageOf_2 = new JLabel("The Percentage of [aa] Homozygous Recessive Individuals is:");
+		
+		JLabel lblThePhenotypeFrequency = new JLabel("The Phenotype Frequency of the Dominant Allele is:");
+		
+		JLabel lblThePhenotypeFrequency_1 = new JLabel("The Phenotype Frequency of the Recessive Allele is:");
+		
+		textField1 = new JTextField();
+		textField1.setColumns(10);
+		
+		textField2 = new JTextField();
+		textField2.setColumns(10);
+		
+		textField3 = new JTextField();
+		textField3.setColumns(10);
+		
+		textField4 = new JTextField();
+		textField4.setColumns(10);
+		
+		textField5 = new JTextField();
+		textField5.setColumns(10);
+		
+		textField6 = new JTextField();
+		textField6.setColumns(10);
+		
+		textField7 = new JTextField();
+		textField7.setColumns(10);
+		
+		JButton btnP = new JButton("p");
+		btnP.setBackground(new Color(233, 150, 122));
+		btnP.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				clear();
+				displayTxt.requestFocusInWindow();
+				Double freq= new Double(displayTxt.getText());
+				
+				Double q=computeOther(freq);
+				
+				String qStr=Double.toString(q);
+				String pStr=Double.toString(freq);
+				
+				textField2.replaceSelection(qStr);
+				textField1.replaceSelection(pStr);
+				
+				double p2 = freq * freq;
+				p2=rounder(p2);
+				String pStr2=Double.toString(p2);
+				textField3.replaceSelection(pStr2);
+				
+				double q2 = q * q;
+				q2=rounder(q2);
+				String qStr2=Double.toString(q2);
+				textField5.replaceSelection(qStr2);
+				
+				double pq2 = 2 * freq * q;
+			    pq2=rounder(pq2);
+			    String pqStr2=Double.toString(pq2);
+			    textField4.replaceSelection(pqStr2);
+			    
+			    double sum=p2 + pq2;
+				sum=rounder(sum);
+				String s=Double.toString(sum);
+				textField6.replaceSelection(s);
+				
+				textField7.replaceSelection(qStr2);
+				
+				percentages();
+			}
+		});
+		
+		JButton btnQ = new JButton("q");
+		btnQ.setBackground(new Color(233, 150, 122));
+		btnQ.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				clear();
+				displayTxt.requestFocusInWindow();
+				Double freq= new Double(displayTxt.getText());
+				
+				Double p=computeOther(freq);
+				
+				String qStr=Double.toString(freq);
+				String pStr=Double.toString(p);
+				
+				textField2.replaceSelection(qStr);
+				textField1.replaceSelection(pStr);
+				
+				double p2 = p * p;
+				p2=rounder(p2);
+				String pStr2=Double.toString(p2);
+				textField3.replaceSelection(pStr2);
+				
+				double q2 = freq * freq;
+				q2=rounder(q2);
+				
+				String qStr2=Double.toString(q2);
+				textField5.replaceSelection(qStr2);
+				
+				double pq2 = 2 * freq * p;
+			    pq2=rounder(pq2);
+			    String pqStr2=Double.toString(pq2);
+			    textField4.replaceSelection(pqStr2);
+			    
+			    double sum=p2 + pq2;
+				sum=rounder(sum);
+				String s=Double.toString(sum);
+				textField6.replaceSelection(s);
+				
+				textField7.replaceSelection(qStr2);
+				
+				percentages();
+				
+			}
+		});
+		
+		JLabel lblFormatxxx = new JLabel("Decimal Format");
+		
+		JLabel lblP = new JLabel("= p");
+		
+		JLabel lblNewLabel_1 = new JLabel("= q");
+		
+		JLabel lblP_1 = new JLabel("= p^2");
+		
+		JLabel label = new JLabel("= 2 * p * q");
+		
+		JLabel lblQ = new JLabel("= q^2");
+		
+		JLabel lblA = new JLabel("= A");
+		
+		JLabel lblA_1 = new JLabel("= a");
+		
+		JLabel lblRememberF = new JLabel("Remember! The Hardy-Weinberg Model makes important assumptions:  Random ");
+		lblRememberF.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JLabel lblNoNaturalSelection = new JLabel(" Mating, NO natural selection, NO genetic drift, NO gene flow, and NO mutation");
+		lblNoNaturalSelection.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNoNaturalSelection.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JButton reset = new JButton("Reset");
+		reset.setBackground(new Color(255, 215, 0));
+		reset.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				clearAll();
+			}
+		});
+		reset.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JButton btnPercentCalculator = new JButton("Click to Compute the Percent");
+		btnPercentCalculator.setBackground(new Color(233, 150, 122));
+		btnPercentCalculator.setVerticalAlignment(SwingConstants.TOP);
+		btnPercentCalculator.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPercentCalculator.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Double num= new Double(textFieldNum.getText());
+				Double den= new Double(textFieldDen.getText());
+				Double eq=num/den;
+				eq=rounder(eq);
+				String equals = Double.toString(eq);
+				textFieldEquals.replaceSelection(equals);
+				
+			}
+		});
+		
+		textFieldNum = new JTextField();
+		textFieldNum.setColumns(10);
+		
+		JLabel label_1 = new JLabel("-------------");
+		
+		textFieldDen = new JTextField();
+		textFieldDen.setColumns(10);
+		
+		JLabel label_2 = new JLabel("=");
+		label_2.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		
+		textFieldEquals = new JTextField();
+		textFieldEquals.setColumns(10);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		
+		JLabel lblDecimal = new JLabel("Decimal");
+		lblDecimal.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblPercentages = new JLabel("Percentages (%)");
+		lblPercentages.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(136)
+					.addComponent(lblNewLabel)
+					.addContainerGap(315, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(334)
+					.addComponent(lblFormatxxx)
+					.addContainerGap(406, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(134, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(10)
+							.addComponent(lblNoNaturalSelection))
+						.addComponent(lblRememberF))
+					.addGap(119))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblPercentages)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(5)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblEnterTheFrequency, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(btnP, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(btnQ, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGap(51)
+										.addComponent(pSquared, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+										.addGap(15)
+										.addComponent(qSquared, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE))
+									.addComponent(displayTxt, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(textFieldNum, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+											.addComponent(textFieldDen, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+											.addComponent(label_1))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(label_2)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(textFieldEquals, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
+									.addComponent(btnPercentCalculator)
+									.addComponent(reset, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addComponent(lblResult)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(lblThePercentageOf_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(lblTheFrequencyOf_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addGap(90))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(lblTheFrequencyOf, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addGap(90))
+										.addComponent(lblThePercentageOf, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(lblThePercentageOf_1)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(lblThePhenotypeFrequency_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblThePhenotypeFrequency, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(textField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(lblP, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+											.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(lblDecimal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(textField7))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(lblA_1, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+											.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+													.addComponent(textField3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+													.addComponent(textField4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+													.addComponent(textField5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+													.addComponent(textField6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+													.addComponent(lblA, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+													.addComponent(lblQ, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+													.addComponent(label, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+													.addComponent(lblP_1, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(textField_2, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))))))
+					.addGap(245))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(lblRememberF)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNoNaturalSelection)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(32)
+							.addComponent(textFieldNum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textFieldDen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(47)
+							.addComponent(label_2))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(55)
+							.addComponent(textFieldEquals, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addComponent(btnPercentCalculator)
+					.addPreferredGap(ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+					.addComponent(reset, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblFormatxxx)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblEnterTheFrequency)
+						.addComponent(displayTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(lblNewLabel)
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblResult)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnP)
+							.addComponent(qSquared)
+							.addComponent(pSquared)
+							.addComponent(btnQ)))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTheFrequencyOf)
+						.addComponent(textField1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblP)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTheFrequencyOf_1)
+						.addComponent(textField2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblThePercentageOf)
+						.addComponent(textField3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblP_1)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblThePercentageOf_1)
+						.addComponent(textField4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(label)
+						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblThePercentageOf_2)
+						.addComponent(textField5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblQ)
+						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblThePhenotypeFrequency)
+						.addComponent(textField6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblA)
+						.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblThePhenotypeFrequency_1)
+						.addComponent(textField7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblA_1)
+						.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblPercentages)
+						.addComponent(lblDecimal))
+					.addGap(21))
+		);
+		contentPane.setLayout(gl_contentPane);
+		displayTxt.requestFocus();
+	}//end of public HardyWeinberg
+}//End of class HardyWeinbergSolver
